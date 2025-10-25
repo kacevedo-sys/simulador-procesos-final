@@ -20,7 +20,7 @@ export function renderLegend(){ const el = legend(); if(!el) return; el.innerHTM
 
 // Refresh de la tabla de procesos. Si se pasa highlightName, la fila
 // correspondiente se marcará con la clase most-efficient.
-export function refreshProcTable(highlightName){ const tb = procTableBody(); if(!tb) return; tb.innerHTML=''; for(const p of PROCESS_NAMES){ const pr = window.SIM_PROCESSES && window.SIM_PROCESSES[p]; if(pr){ const tr = document.createElement('tr'); if(p === highlightName) tr.className = 'most-efficient'; tr.innerHTML = <td>${p}</td><td>${pr.arrival}</td><td>${pr.burst}</td>; tb.appendChild(tr); } } renderLegend(); }
+export function refreshProcTable(highlightName){ const tb = procTableBody(); if(!tb) return; tb.innerHTML=''; for(const p of PROCESS_NAMES){ const pr = window.SIM_PROCESSES && window.SIM_PROCESSES[p]; if(pr){ const tr = document.createElement('tr'); if(p === highlightName) tr.className = 'most-efficient'; tr.innerHTML = `<td>${p}</td><td>${pr.arrival}</td><td>${pr.burst}</td>`; tb.appendChild(tr); } } renderLegend(); }
 
 // Añadir versión con logging para depuración (se usa la misma función)
 const _origRefresh = refreshProcTable;
@@ -39,9 +39,17 @@ function pickMostEfficient(tableRows){ if(!tableRows || tableRows.length===0) re
 export function renderResults(metrics){ const tb = resultsTbody(); if(!tb) return; tb.innerHTML=''; const rows = (metrics.tableRows || []);
 	// determinar proceso más eficiente
 	const mostEff = pickMostEfficient(rows);
-	rows.forEach(r=>{ const tr = document.createElement('tr'); if(r.name === mostEff) tr.className = 'most-efficient'; tr.innerHTML = <td>${r.name}</td><td>${r.arrival}</td><td>${r.burst}</td><td>${r.tf}</td><td>${r.T}</td><td>${r.Te}</td><td>${r.I}</td>; tb.appendChild(tr); });
-	if(resultsFoot()) resultsFoot().innerHTML = <tr><td colspan="4" style="text-align:right"><strong>Promedios</strong></td><td><strong>${metrics.avgT}</strong></td><td><strong>${metrics.avgWait}</strong></td><td><strong>${metrics.avgI}</strong></td></tr> + (mostEff ? <tr><td colspan="7" style="text-align:center;background:#e6f7ff">Proceso más eficiente: <strong>${mostEff}</strong></td></tr> : '');
-	if(metricsArea()) metricsArea().innerHTML = <div class="small">Duración total: ${metrics._timelineLength || 0}</div>; if(summary()) summary().innerHTML = <div class="small">Tiempo mostrado: 0 .. ${Math.min(MAX_TIME-1, (metrics._timelineLength||0) - 1)}</div>;
+	rows.forEach(r=>{ const tr = document.createElement('tr'); if(r.name === mostEff) tr.className = 'most-efficient'; tr.innerHTML = `<td>${r.name}</td><td>${r.arrival}</td><td>${r.burst}</td><td>${r.tf}</td><td>${r.T}</td><td>${r.Te}</td><td>${r.I}</td>`; tb.appendChild(tr); });
+	if(resultsFoot()) resultsFoot().innerHTML = `
+		<tr>
+			<td colspan="4" style="text-align:right"><strong>Promedios</strong></td>
+			<td><strong>${metrics.avgT}</strong></td>
+			<td><strong>${metrics.avgWait}</strong></td>
+			<td><strong>${metrics.avgI}</strong></td>
+		</tr>` + (mostEff ? `\
+		<tr><td colspan="7" style="text-align:center;background:#e6f7ff">Proceso más eficiente: <strong>${mostEff}</strong></td></tr>` : '');
+	if(metricsArea()) metricsArea().innerHTML = `<div class="small">Duración total: ${metrics._timelineLength || 0}</div>`;
+	if(summary()) summary().innerHTML = `<div class="small">Tiempo mostrado: 0 .. ${Math.min(MAX_TIME-1, (metrics._timelineLength||0) - 1)}</div>`;
 	// también resaltamos en la tabla de procesos (si aplica)
 	try{ refreshProcTableWithLog(mostEff); }catch(e){ console.warn('[ui] refreshProcTableWithLog failed', e); }
 }
