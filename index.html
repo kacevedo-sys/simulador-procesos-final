@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulador de Gestión de Procesos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Simulador de Gestión de Procesos</h1>
+  <div class="container">
+    <div class="left">
+      <div class="controls">
+        <div>
+          <label>Proceso:</label>
+          <select id="procName">
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+            <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+            <option value="G">G</option>
+          </select>
+        </div>
+        <div>
+          <label>Instante llegada (ti):</label>
+          <input id="arrival" type="number" min="0" value="0" />
+        </div>
+        <div>
+          <label>Tiempo CPU (t):</label>
+          <input id="burst" type="number" min="1" value="5" />
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button id="addProc">Agregar / Actualizar</button>
+          <button id="removeProc" class="ghost">Eliminar</button>
+          <button id="clearAll" class="ghost">Limpiar todos</button>
+        </div>
+      </div>
+
+      <div class="process-list">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>Procesos definidos (máx 7)</strong>
+          <div class="small">Puedes agregar por nombre A..G</div>
+        </div>
+        <table class="processes" id="procTable">
+          <thead>
+            <tr><th>Proc</th><th>ti (llegada)</th><th>t (CPU)</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button id="runFCFS">Ejecutar FCFS</button>
+        <button id="runSJF">Ejecutar SJF (no preemptivo)</button>
+        <button id="runSRTF">Ejecutar SRTF (preemptivo)</button>
+        <div class="controls-row">
+          <label>Round Robin (q):</label>
+          <input id="rrQuantum" class="small" type="number" min="1" value="3" />
+          <button id="runRR">Ejecutar RR</button>
+        </div>
+        <!-- Controles de ejecución en tiempo real removidos: ahora la ejecución
+             por algoritmo usa un cronómetro interno (no visible) que avanza
+             1 segundo y pinta una marca por segundo. -->
+        <button id="resetAll" class="ghost">Reset simulación</button>
+      </div>
+
+      <div class="gantt" id="ganttArea">
+        <div class="gantt-header">
+          <div style="width:48px"></div>
+          <div class="gantt-time" id="timeHeader"></div>
+        </div>
+        <div class="gantt-grid" id="ganttGrid"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+
+      <div class="metrics" id="metricsArea"></div>
+    </div>
+
+    <div class="right">
+      <h3>Tabla de resultados</h3>
+      <table class="results-table" id="resultsTable">
+        <thead>
+          <tr>
+            <th>Proceso</th>
+            <th>ti</th>
+            <th>t</th>
+            <th>tf</th>
+            <th>T (retorno)</th>
+            <th>Te (espera)</th>
+            <th>I (t/T)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot id="resultsFoot"></tfoot>
+      </table>
+      <div class="summary" id="summary"></div>
+      <footer>Simulador local — diseñado para ejercicios y visualización.</footer>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js" defer></script>
+  
+</body>
+</html>
