@@ -21,12 +21,29 @@ const rrQuantumInp = document.getElementById('rrQuantum');
 
 const resetAllBtn = document.getElementById('resetAll');
 
+// Debug: comprobar que las referencias DOM existen al cargar
+console.log('[main] DOM refs', {
+  procTableBody: !!procTableBody,
+  addProcBtn: !!addProcBtn,
+  removeProcBtn: !!removeProcBtn,
+  clearAllBtn: !!clearAllBtn,
+  procNameInp: !!procNameInp,
+  arrivalInp: !!arrivalInp,
+  burstInp: !!burstInp,
+  runFCFSBtn: !!runFCFSBtn,
+  runSJFBtn: !!runSJFBtn,
+  runSRTFBtn: !!runSRTFBtn,
+  runRRBtn: !!runRRBtn,
+  rrQuantumInp: !!rrQuantumInp,
+  resetAllBtn: !!resetAllBtn
+});
+
 // Hidden runner
 let hiddenRunnerId = null; let hiddenRunnerIndex = 0; let hiddenRunnerTimeline = []; let timelineLength = 0;
 
 function snapshotProcs(){ const snap={}; for(const k in window.SIM_PROCESSES) snap[k] = {...window.SIM_PROCESSES[k]}; return snap; }
 
-function startHiddenRunner(timeline){ if(hiddenRunnerId) clearInterval(hiddenRunnerId); hiddenRunnerTimeline = timeline.slice(); hiddenRunnerIndex = 0; console.log('[main] startHiddenRunner total=', timeline.length); hiddenRunnerId = setInterval(()=>{ if(hiddenRunnerIndex >= hiddenRunnerTimeline.length){ clearInterval(hiddenRunnerId); hiddenRunnerId = null; console.log('[main] hidden runner finished'); return; } const slice = hiddenRunnerTimeline.slice(0, hiddenRunnerIndex + 1); console.log('[main] tick', hiddenRunnerIndex, 'sliceLen', slice.length); paintGanttWithLog(slice); const metrics = computeMetricsFromTimeline(slice, snapshotProcs()); metrics._timelineLength = slice.length; renderResults(metrics); hiddenRunnerIndex++; }, 1000); }
+function startHiddenRunner(timeline){ if(hiddenRunnerId) clearInterval(hiddenRunnerId); hiddenRunnerTimeline = timeline.slice(); hiddenRunnerIndex = 0; console.log('[main] startHiddenRunner total=', timeline.length); hiddenRunnerId = setInterval(()=>{ if(hiddenRunnerIndex >= hiddenRunnerTimeline.length){ clearInterval(hiddenRunnerId); hiddenRunnerId = null; console.log('[main] hidden runner finished'); return; } const slice = hiddenRunnerTimeline.slice(0, hiddenRunnerIndex + 1); console.log('[main] tick', hiddenRunnerIndex, 'sliceLen', slice.length); paintGanttWithLog(slice); const metrics = computeMetricsFromTimeline(slice, snapshotProcs()); metrics._timelineLength = slice.length; renderResults(metrics); hiddenRunnerIndex++; }, 3000); }
 
 function stopHiddenRunner(){ if(hiddenRunnerId) clearInterval(hiddenRunnerId); hiddenRunnerId=null; hiddenRunnerIndex=0; hiddenRunnerTimeline=[]; }
 
