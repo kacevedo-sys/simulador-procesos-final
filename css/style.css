@@ -1,0 +1,76 @@
+
+:root{
+  --cell-size: 28px;
+  --gap: 4px;
+  --grid-width: calc(var(--cell-size) * 30 + 2px);
+  --process-rows: 7;
+  --font: 13px/1.2 "Segoe UI", Roboto, Arial, sans-serif;
+}
+body{
+  font: var(--font);
+  margin: 18px;
+  color: #222;
+}
+h1{margin:0 0 8px 0;font-size:18px}
+.container{display:flex;gap:18px;align-items:flex-start}
+.left, .right{background:#fff;border:1px solid #ddd;padding:12px;border-radius:6px;box-shadow:0 1px 0 rgba(0,0,0,0.03)}
+.left{width:760px}
+.right{width:360px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+label{font-size:13px}
+input[type="number"], select{padding:6px;border:1px solid #ccc;border-radius:4px}
+button{padding:8px 10px;border:0;background:#2b78d3;color:#fff;border-radius:6px;cursor:pointer}
+button.ghost{background:#f2f4f7;color:#222;border:1px solid #ddd}
+.process-list{margin-top:10px;border-top:1px dashed #e6e6e6;padding-top:8px}
+table.processes{width:100%;border-collapse:collapse;margin-top:8px}
+table.processes th, table.processes td{border:1px solid #eee;padding:6px;text-align:center;font-size:13px}
+.gantt{
+  margin-top:12px;border:1px solid #ddd;padding:8px;border-radius:6px;background:#fafafa;
+  width: calc(var(--cell-size) * 30 + 160px);
+}
+.gantt-grid{display:flex;flex-direction:column;gap:6px}
+.gantt-header{display:flex;align-items:center;margin-bottom:6px}
+.gantt-time{display:flex;gap:2px;margin-left:48px}
+.time-cell{
+  width:var(--cell-size);height:var(--cell-size);display:flex;align-items:center;justify-content:center;
+  border:1px solid #ddd;background:#fff;font-size:12px;
+}
+.row{
+  display:flex;align-items:center;
+}
+.row-label{
+  width:48px;height:var(--cell-size);display:flex;align-items:center;justify-content:center;margin-right:4px;
+  border:1px solid #ddd;background:#fff;font-weight:600;
+}
+.row-cells{display:flex;gap:2px}
+.cell{
+  width:var(--cell-size);height:var(--cell-size);border:1px solid #e6e6e6;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;
+}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.legend-item{display:flex;align-items:center;gap:8px;background:#fff;padding:6px;border-radius:6px;border:1px solid #eee}
+.metrics{margin-top:10px}
+.results-table{width:100%;border-collapse:collapse;margin-top:8px}
+.results-table th, .results-table td{border:1px solid #eee;padding:6px;font-size:13px;text-align:center}
+.summary{margin-top:8px}
+.small{font-size:12px;color:#666}
+footer{margin-top:12px;font-size:12px;color:#666}
+/* Process colors (7 distinct) */
+.p-A{background:#2b78d3}
+.p-B{background:#f39c12}
+.p-C{background:#27ae60}
+.p-D{background:#9b59b6}
+.p-E{background:#e74c3c}
+.p-F{background:#16a085}
+.p-G{background:#34495e}
+/* empty cell */
+.cell.empty{background:#fff;border:1px solid #f0f0f0}
+/* highlight current */
+.cell.now{outline:2px solid #ffb86b}
+.controls-row{display:flex;align-items:center;gap:8px}
+input.small{width:70px}
+select.small{width:110px}
+
+/* Resaltado del proceso más eficiente (celeste) */
+.most-efficient td{background:#bfefff}
+.most-efficient{background:#bfefff}
